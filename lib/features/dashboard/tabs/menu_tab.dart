@@ -1,17 +1,30 @@
+// lib/features/dashboard/tabs/menu_tab.dart
 import 'package:flutter/material.dart';
 import 'package:monitoring_app/features/dashboard/widgets/menu_grid_item.dart';
 import 'package:monitoring_app/shared/constants/app_colors.dart';
+
+// IMPORT halaman playback (pakai yang punya constant route)
+import 'package:monitoring_app/features/playback/pages/playback_list_page.dart';
 
 class MenuTab extends StatelessWidget {
   MenuTab({super.key});
 
   // Data untuk menu grid
-  final List<Map<String, dynamic>> menuItems = [
+  final List<Map<String, dynamic>> menuItems = const [
     {'icon': Icons.notifications_none_rounded, 'label': 'Event Notification'},
-    {'icon': Icons.face_unlock_sharp, 'label': 'Face Bank'},
-    {'icon': Icons.play_circle_outline_sharp, 'label': 'Playback Video'},
-    {'icon': Icons.camera_alt_outlined, 'label': 'Camera Configuration'},
+    {'icon': Icons.face_unlock_sharp,           'label': 'Face Bank'},
+    {'icon': Icons.play_circle_outline_sharp,   'label': 'Playback Video'},
+    {'icon': Icons.camera_alt_outlined,         'label': 'Camera Configuration'},
   ];
+
+  // Peta label -> named route (biar nggak if-else panjang)
+  static const Map<String, String> _routeMap = {
+    'Playback Video': PlaybackListPage.route,
+    // Tambahkan rute lain jika sudah siap:
+    // 'Event Notification': EventNotificationPage.route,
+    // 'Face Bank': FaceBankPage.route,
+    // 'Camera Configuration': CameraConfigPage.route,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +46,9 @@ class MenuTab extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = menuItems[index];
               return MenuGridItem(
-                icon: item['icon'],
-                label: item['label'],
-                onTap: () {
-                  // TODO: Implement navigation
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Navigasi ke ${item['label']}')),
-                  );
-                },
+                icon: item['icon'] as IconData,
+                label: item['label'] as String,
+                onTap: () => _onMenuTap(context, item['label'] as String),
               );
             },
           ),
@@ -49,13 +57,11 @@ class MenuTab extends StatelessWidget {
           // Tombol Settings & Logout
           Row(
             children: [
-              // Tombol Settings
               Expanded(
                 flex: 4,
                 child: _buildSettingsButton(
                   context,
                   onTap: () {
-                    // TODO: Implement navigation
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Navigasi ke Settings')),
                     );
@@ -63,7 +69,6 @@ class MenuTab extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              // Tombol Logout
               Expanded(
                 flex: 1,
                 child: _buildLogoutButton(
@@ -78,6 +83,19 @@ class MenuTab extends StatelessWidget {
     );
   }
 
+  // === NAV HANDLER ===
+  void _onMenuTap(BuildContext context, String label) {
+    final routeName = _routeMap[label];
+    if (routeName != null) {
+      Navigator.of(context).pushNamed(routeName);
+    } else {
+      // fallback sementara bila belum ada rute
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Navigasi ke $label belum diimplementasikan')),
+      );
+    }
+  }
+
   // Widget helper untuk tombol Settings (full-width)
   Widget _buildSettingsButton(BuildContext context,
       {required VoidCallback onTap}) {
@@ -89,7 +107,7 @@ class MenuTab extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.all(16),
-          height: 70, // Samakan tinggi dengan tombol logout
+          height: 70,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -122,7 +140,7 @@ class MenuTab extends StatelessWidget {
     );
   }
 
-  // Fungsi untuk menampilkan dialog konfirmasi logout
+  // Dialog konfirmasi logout
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -134,20 +152,17 @@ class MenuTab extends StatelessWidget {
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
           contentTextStyle: Theme.of(context).textTheme.bodyMedium,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           actions: <Widget>[
             TextButton(
               child: const Text('Batal',
                   style: TextStyle(color: kSecondaryTextColor)),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(); // Tutup dialog
-              },
+              onPressed: () => Navigator.of(dialogContext).pop(),
             ),
             TextButton(
               child: const Text('Iya', style: TextStyle(color: kAccentRed)),
               onPressed: () {
-                Navigator.of(dialogContext).pop(); // Tutup dialog
-                // TODO: Implementasi logika logout di sini
+                Navigator.of(dialogContext).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Berhasil Logout...')),
                 );

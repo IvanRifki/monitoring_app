@@ -33,14 +33,14 @@ class AppTheme {
         .apply(
           fontFamily: 'Poppins',
         ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: kCardColor,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
     ),
-    tabBarTheme: const TabBarTheme(
+    tabBarTheme: const TabBarThemeData(
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(color: kAccentBlue, width: 3),
         insets: EdgeInsets.symmetric(horizontal: 40.0),

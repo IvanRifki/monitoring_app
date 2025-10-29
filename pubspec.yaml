@@ -37,6 +37,13 @@ dependencies:
   cupertino_icons: ^1.0.8
   fl_chart: 0.68.0
 
+  # ==== Playback Video ====
+  video_player: ^2.8.6     # player engine
+  chewie: ^1.7.5            # UI kontrol (play/pause/seek)
+  dio: ^5.7.0               # HTTP (download/upload)
+  file_picker: ^8.1.2       # pilih file untuk upload
+  intl: ^0.19.0             # format tanggal/angka
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
