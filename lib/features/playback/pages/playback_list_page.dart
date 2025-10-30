@@ -26,7 +26,7 @@ class _PlaybackListPageState extends State<PlaybackListPage> {
   int _currentPage = 1;
 
   // TODO: ganti ini pakai fetch API
-  late List<PlaybackItem> _all = List.generate(125, (i) {
+  late final List<PlaybackItem> _all = List.generate(125, (i) {
     return PlaybackItem(
       id: '$i',
       title: '${i + 1}. Video Name here.MP4',
@@ -337,8 +337,8 @@ class _UploadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // warna primer yang kontras di dark theme
-    final Color bg = const Color(0xFF2563EB); // blue-600
-    final Color fg = Colors.white;
+    const Color bg = Color(0xFF2563EB); // blue-600
+    const Color fg = Colors.white;
 
     return SizedBox(
       height: 56,
@@ -354,9 +354,9 @@ class _UploadButton extends StatelessWidget {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16),
         ),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(Icons.cloud_upload_rounded, size: 22),
             SizedBox(width: 10),
             Text(

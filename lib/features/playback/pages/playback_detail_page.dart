@@ -216,7 +216,7 @@ class _PlaybackDetailPageState extends State<PlaybackDetailPage> {
 
     final Color bg = base.withOpacity(.42);
     final Color border = base;
-    final Color fg = Colors.white;
+    const Color fg = Colors.white;
 
     final String label =
     isDone ? 'Done' : (isProc ? 'Process' : _titleCase(status));

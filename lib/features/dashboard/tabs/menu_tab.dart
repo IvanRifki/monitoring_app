@@ -1,20 +1,22 @@
 // lib/features/dashboard/tabs/menu_tab.dart
 import 'package:flutter/material.dart';
 import 'package:monitoring_app/features/dashboard/widgets/menu_grid_item.dart';
+import 'package:monitoring_app/features/auth/pages/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:monitoring_app/shared/constants/app_colors.dart';
 
 // IMPORT halaman playback (pakai yang punya constant route)
 import 'package:monitoring_app/features/playback/pages/playback_list_page.dart';
 
 class MenuTab extends StatelessWidget {
-  MenuTab({super.key});
+  const MenuTab({super.key});
 
   // Data untuk menu grid
   final List<Map<String, dynamic>> menuItems = const [
     {'icon': Icons.notifications_none_rounded, 'label': 'Event Notification'},
-    {'icon': Icons.face_unlock_sharp,           'label': 'Face Bank'},
-    {'icon': Icons.play_circle_outline_sharp,   'label': 'Playback Video'},
-    {'icon': Icons.camera_alt_outlined,         'label': 'Camera Configuration'},
+    {'icon': Icons.face_unlock_sharp, 'label': 'Face Bank'},
+    {'icon': Icons.play_circle_outline_sharp, 'label': 'Playback Video'},
+    {'icon': Icons.camera_alt_outlined, 'label': 'Camera Configuration'},
   ];
 
   // Peta label -> named route (biar nggak if-else panjang)
@@ -152,7 +154,7 @@ class MenuTab extends StatelessWidget {
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
           contentTextStyle: Theme.of(context).textTheme.bodyMedium,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           actions: <Widget>[
             TextButton(
               child: const Text('Batal',
@@ -161,10 +163,18 @@ class MenuTab extends StatelessWidget {
             ),
             TextButton(
               child: const Text('Iya', style: TextStyle(color: kAccentRed)),
-              onPressed: () {
+              onPressed: () async {
+                // 1. Hapus status login dari shared_preferences
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.remove('isLoggedIn');
+
+                // 2. Tutup dialog
                 Navigator.of(dialogContext).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Berhasil Logout...')),
+
+                // 3. Navigasi ke halaman login dan hapus semua halaman sebelumnya
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  LoginPage.route,
+                  (Route<dynamic> route) => false,
                 );
               },
             ),

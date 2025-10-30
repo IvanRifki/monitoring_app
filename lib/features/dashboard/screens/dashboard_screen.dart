@@ -6,6 +6,9 @@ import 'package:monitoring_app/features/dashboard/widgets/animated_gradient_butt
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
+  // Definisikan route name agar bisa dipanggil dari mana saja
+  static const route = '/dashboard';
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -20,14 +23,13 @@ class DashboardScreen extends StatelessWidget {
           title: const Text('Dashboard'),
           centerTitle: true,
           actions: const [
+            // Avatar pengguna, tanpa dropdown
             Padding(
               padding: EdgeInsets.only(right: 16.0),
               child: CircleAvatar(
-                  // Ganti dengan avatar
-                  backgroundImage:
-                      // NetworkImage('https://i.imgur.com/OzA13uG.png'),
-                      AssetImage('assets/avatar.png')),
-            ),
+                backgroundImage: AssetImage('assets/avatar.png'),
+              ),
+            )
           ],
         ),
         body: Padding(
@@ -49,7 +51,7 @@ class DashboardScreen extends StatelessWidget {
                   children: [
                     // Panggil widget Tab dari file terpisah
                     MenuTab(),
-                    ChartsTab(),
+                    const ChartsTab(),
                   ],
                 ),
               ),

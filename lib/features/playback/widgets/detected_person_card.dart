@@ -26,7 +26,7 @@ class DetectedPersonCard extends StatelessWidget {
         : const Color(0xFF607D8B)); // blueGrey 500 (fallback)
 
     final Color labelBg   = labelBase.withOpacity(.42);
-    final Color labelText = Colors.white;
+    const Color labelText = Colors.white;
 
     // warna similarity
     final int sim = person.confidence;

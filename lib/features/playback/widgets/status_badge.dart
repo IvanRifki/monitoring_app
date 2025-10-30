@@ -40,7 +40,7 @@ class StatusBadge extends StatelessWidget {
     final Color bg = base.withOpacity(bgOpacity);
     final Color border = base;
     // Agar selalu terbaca di dark UI, pakai teks putih
-    final Color fg = Colors.white;
+    const Color fg = Colors.white;
 
     // Sizing berbasis dense + scale
     final double basePadV = dense ? 3.0 : 7.0;
